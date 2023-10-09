@@ -11,8 +11,8 @@ export default function ActionButton({
 }) {
   return (
     <button
-      className={`${bgColor} w-10 h-10 flex justify-center items-center rounded-full cursor-pointer ${
-        hidde ? 'hidden' : 'block'
+      className={`${bgColor} flex w-10 h-10 justify-center items-center rounded-full cursor-pointer ${
+        hidde ? 'sm:hidden' : 'flex'
       }`}
     >
       <Image width={25} height={25} src={iconPath} alt="micro" />

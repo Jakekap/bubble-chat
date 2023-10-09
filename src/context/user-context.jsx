@@ -8,7 +8,7 @@ export const UserProvider = ({ children }) => {
   const [openChat, setOpenChat] = useState(false)
 
   const handleSwitchChat = () => {
-    setOpenChat(true)
+    setOpenChat(prev => !prev)
   }
 
   return (

@@ -5,12 +5,20 @@ import MessageBox from './MessageBox'
 import ChatBox from './ChatBox'
 import { useState } from 'react'
 import EditSidebar from './EditSidebar'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { UserContext } from '../context/user-context'
 
 export default function ChatBody() {
   const [showSidebar, setShowSidebar] = useState(false)
   const { openChat, handleSwitchChat } = useContext(UserContext)
+  const [anchoDeVentana, setAnchoDeVentana] = useState(0)
+  // const anchoDeVentana = window.innerWidth
+
+  useEffect(() => {
+    const anchoDeVentana = window.innerWidth
+    console.log(anchoDeVentana)
+    setAnchoDeVentana(anchoDeVentana)
+  }, [])
 
   return (
     <section className="bg-white w-[70vw] h-[90vh] sm:h-screen sm:w-screen rounded-lg sm:rounded-none sm:overflow-x-hidden">
@@ -34,7 +42,7 @@ export default function ChatBody() {
           <div className="flex px-5 py-5 gap-5 bg-gray-light border-b-2 border-gray-border sm:sticky sm:z-40">
             <button
               onClick={handleSwitchChat}
-              className={`flex justify-center items-center cursor-pointer ${
+              className={`sm:flex hidden justify-center items-center cursor-pointer ${
                 openChat ? '' : 'sm:hidden'
               }`}
             >
@@ -62,10 +70,7 @@ export default function ChatBody() {
             </div>
             {openChat && (
               <>
-                <button
-                  onClick={() => setShowSidebar(true)}
-                  className="flex -scale-y-100 rotate-180 justify-center items-center cursor-pointer"
-                >
+                <button className="sm:flex hidden -scale-y-100 rotate-180 justify-center items-center cursor-pointer">
                   <Image
                     width={20}
                     height={20}
@@ -75,7 +80,7 @@ export default function ChatBody() {
                 </button>
                 <button
                   onClick={() => setShowSidebar(true)}
-                  className="flex -scale-y-100 rotate-180 justify-center items-center cursor-pointer"
+                  className="sm:flex hidden -scale-y-100 rotate-180 justify-center items-center cursor-pointer"
                 >
                   <Image
                     width={20}
@@ -103,7 +108,7 @@ export default function ChatBody() {
             <ChatCard />
           </div>
         </div>
-        {openChat ? (
+        {(anchoDeVentana <= 390 || openChat) && (
           <div
             id="rightPanel"
             className={`w-full flex flex-col sm:bg-white h-full sm:absolute ease-in-out duration-300 ${
@@ -113,15 +118,15 @@ export default function ChatBody() {
             <ChatBox />
             <MessageBox />
           </div>
-        ) : (
+        )}
+        {anchoDeVentana > 390 && !openChat && (
           <div
-            className={`w-full flex gap-20 items-center justify-center flex-col sm:bg-white h-full sm:absolute ease-in-out duration-300 ${
-              openChat ? 'sm:right-0' : 'sm:-right-full'
+            className={`flex w-full gap-20 items-center justify-center flex-col sm:bg-white h-full sm:absolute ease-in-out duration-300 ${
+              openChat ? 'sm:right-0 ' : 'sm:-right-full'
             } `}
           >
             <div className="flex flex-col gap-10 justify-center items-center">
               <Image
-                className=""
                 width={200}
                 height={200}
                 src={'/logo.svg'}
